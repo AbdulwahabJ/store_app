@@ -1,9 +1,11 @@
 class ProductModle {
   final int id;
   final String title;
-  final double price;
+  final dynamic price;
   final String description;
   final String image;
+  final String category;
+
   final RatingModel rating;
 
   ProductModle({
@@ -12,6 +14,7 @@ class ProductModle {
     required this.price,
     required this.description,
     required this.image,
+    required this.category,
     required this.rating,
   });
 
@@ -22,6 +25,7 @@ class ProductModle {
       price: jsonData['price'],
       description: jsonData['description'],
       image: jsonData['image'],
+      category: jsonData['category'],
       rating: RatingModel.fromJson(jsonData['rating']),
     );
   }
@@ -29,7 +33,7 @@ class ProductModle {
 
 class RatingModel {
   //
-  final double rate;
+  final dynamic rate;
   final int count;
 
   RatingModel({required this.rate, required this.count});

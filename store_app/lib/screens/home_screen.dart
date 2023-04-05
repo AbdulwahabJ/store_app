@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:store_app/models/product_model.dart';
+import 'package:store_app/services/get_all_product_services.dart';
 
 import '../widgets/custom_card.dart';
 
@@ -29,17 +30,28 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 75),
-        child: GridView.builder(
-            clipBehavior: Clip.none,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1.4,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 90,
-            ),
-            itemBuilder: (context, index) {
-              return CustomCard();
-            }),
+        child: FutureBuilder<List<ProductModle>>(
+          future: AllProductsService().getAllProducts(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<ProductModle> products = snapshot.data!;
+              return GridView.builder(
+                  itemCount: products.length,
+                  clipBehavior: Clip.none,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.4,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 90,
+                  ),
+                  itemBuilder: (context, index) {
+                    return CustomCard(product: products[index]);
+                  });
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
       ),
     );
   }
