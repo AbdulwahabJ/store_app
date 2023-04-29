@@ -20,6 +20,7 @@ class UpdateProductServices {
         'category': category,
       },
     );
+    print('$data @@@@@@@@@@@@@@');
     return ProductModle.fromJson(data);
   }
 }
